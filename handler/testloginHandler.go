@@ -24,9 +24,9 @@ func LoginHandlerTest(w http.ResponseWriter, r *http.Request) {
 		log.Println(r.UserAgent(), "方法不正确")
 		// 创建一个响应数据结构
 		response := &HttpResponse{
-			Code: "a111",         // 设置响应码
-			Msg:  GetMsg("a111"), // 获取对应的响应消息
-			Data: nil,            // 设置响应数据，如果有的话
+			// Code: "a111",         // 设置响应码
+			// Msg:  GetMsg("a111"), // 获取对应的响应消息
+			Data: nil, // 设置响应数据，如果有的话
 		}
 		responseJson, _ := json.Marshal(response)
 
@@ -48,7 +48,7 @@ func LoginHandlerTest(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(user.Name)
 
 	httpResponse := &HttpResponse{
-		Code: "200",
+		// Code: "200",
 		Msg:  "OK",
 		Data: user,
 	}

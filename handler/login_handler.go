@@ -18,7 +18,7 @@ type User struct {
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodPost {
-		RespondWithError(w, "AAA", "bad method")
+		RespondWithError(w, "请求方法错误")
 		log.Println("method bad")
 		return
 	}
@@ -27,14 +27,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := JsonDecode(r, &user)
 	if err != nil {
-		RespondWithError(w, "500", "json Decoder failed")
+		RespondWithError(w, "")
 		log.Println(err)
 		return
 	}
 
 	err = QueryRow(user)
 	if err != nil {
-		RespondWithError(w, "500", "查不到")
+		RespondWithError(w, "查不到")
 		log.Println(err)
 		return
 	}
@@ -53,7 +53,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	//将token返回
 
-	RespondWithSuccess(w, "RRRR", "ok", responseToken)
+	RespondWithSuccess(w, "ok", responseToken)
 }
 
 // 查询数据

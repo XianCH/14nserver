@@ -3,13 +3,22 @@ package server
 import (
 	"fmt"
 	"log"
+	"os"
+	"time"
+
 	"net/http"
 
 	"github.com/x14n/14nserver/handler"
+	logger "github.com/x14n/14nserver/log"
 	"github.com/x14n/14nserver/utils"
 )
 
+var accessLog *logger.Log
+
 func ServerStart() {
+
+	InitLoger()
+	defer accessLog.Close()
 
 	DBerr := utils.InitDB()
 	if DBerr != nil {
@@ -25,4 +34,15 @@ func ServerStart() {
 		log.Println("服务启动失败", err)
 	}
 	log.Println("server start")
+}
+
+func InitLoger() {
+	accessLog = &logger.Log{
+		EntriesNum: 1024,
+		Writer:     os.Stdout,
+		Interval:   1 * time.Second,
+	}
+
+	accessLog.InitLog()
+	go accessLog.Loop()
 }

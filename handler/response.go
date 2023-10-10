@@ -5,34 +5,29 @@ import (
 	"net/http"
 )
 
-var CodeMsgMap = map[string]string{
-	"a111": "权限不足",
-}
+const (
+	serverInterError = "服务器网络异常"
+	BadRequest       = "请求参数异常"
+	JsonDecodeFaild  = "json解析错误"
+	//...
+)
 
 type HttpResponse struct {
-	Code string
 	Msg  string
 	Data interface{}
 }
 
-func GetMsg(code string) string {
-	codeMsg := CodeMsgMap[code]
-	return codeMsg
-}
-
-func RespondWithError(w http.ResponseWriter, code string, message string) {
-	errorResponse := HttpResponse{
-		Code: code,
-		Msg:  message,
+func RespondWithError(w http.ResponseWriter, message string) {
+	errorResponse := &HttpResponse{
+		Msg: message,
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusBadRequest)
 	json.NewEncoder(w).Encode(errorResponse)
 }
 
-func RespondWithSuccess(w http.ResponseWriter, code string, message string, data interface{}) {
+func RespondWithSuccess(w http.ResponseWriter, message string, data interface{}) {
 	Response := HttpResponse{
-		Code: code,
 		Msg:  message,
 		Data: data,
 	}
